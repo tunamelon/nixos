@@ -3,19 +3,62 @@
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
 { config, pkgs, inputs, ... }:
-
-
+let
+  # Define the username as a variable
+  userName = "tuna";
+in
 {
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
       inputs.home-manager.nixosModules.default
-#      inputs.sops-nix.nixosModules.sops
+      inputs.sops-nix.nixosModules.sops
       ./main-user.nix
     ];
 
+  # Sops
+  # Go to ./secrets/ and run "sops secrets.yaml" to edit secrets
+  # Secrets location
+  sops.defaultSopsFile = ./secrets/secrets.yaml;
+  sops.defaultSopsFormat = "yaml";
+  
+  sops.age.keyFile = "/home/${userName}/.config/sops/age/keys.txt";
+  
+  sops.secrets.example-key = {
+    owner = userName;
+  };
+  sops.secrets."myservice/my_subdir/my_secret" = {
+    owner = "sometestservice";
+    #owner = userName;
+  };
+
+  systemd.services."sometestservice" = {
+    script = ''
+        echo "
+        Hey bro! I'm a service, and imma send this secure password:
+        $(cat ${config.sops.secrets."myservice/my_subdir/my_secret".path})
+        located in:
+        ${config.sops.secrets."myservice/my_subdir/my_secret".path}
+        to database and hack the mainframe
+        " > /var/lib/sometestservice/testfile
+      '';
+    serviceConfig = {
+      User = "sometestservice";
+      WorkingDirectory = "/var/lib/sometestservice";
+    };
+  };
+
+  users.users.sometestservice = {
+    home = "/var/lib/sometestservice";
+    createHome = true;
+    isSystemUser = true;
+    group = "sometestservice";
+  };
+  users.groups.sometestservice = { };
+
+  # User
   main-user.enable = true;
-  main-user.userName = "tuna";
+  main-user.userName = userName;
 
   # Temp
   programs.zsh.enable = true;
