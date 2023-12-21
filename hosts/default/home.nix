@@ -1,21 +1,31 @@
-{ config, pkgs, lib, ... }:
-
-#let
-#  shellAliases = ''
-#    alias nixconfig='sudo nano /etc/nixos/configuration.nix'
-#    alias nixswitch='sudo nixos-rebuild switch'
-#    alias nixconfig-switch='nixconfig && nixswitch && exec zsh'
-#    alias tmuxssh='tmux new-session -A -s ssh'
-#    alias testing='echo yep'
-#  '';
-# hellotest
-#in
+{ config, pkgs, lib, inputs, ... }:
 
 {
+#  imports = [
+#    inputs.sops-nix.nixosModules.sops
+#    <sops-nix/modules/home-manager/sops.nix>
+#  ];
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
   home.username = "tuna";
   home.homeDirectory = "/home/tuna";
+
+  # Sops
+#  sops = {
+#    age.keyFile = "~/.config/sops/age/.key.txt"; # must have no password!
+    # It's also possible to use a ssh key, but only when it has no password:
+    #age.sshKeyPaths = [ "/home/user/path-to-ssh-key" ];
+#    defaultSopsFile = ./secrets.yaml;
+#    secrets.test = {
+      # sopsFile = ./secrets.yml.enc; # optionally define per-secret files
+
+      # %r gets replaced with a runtime directory, use %% to specify a '%'
+      # sign. Runtime dir is $XDG_RUNTIME_DIR on linux and $(getconf
+      # DARWIN_USER_TEMP_DIR) on darwin.
+#      path = "%r/test.txt"; 
+#    };
+#  };
+
 
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release
@@ -32,11 +42,10 @@
     # # Adds the 'hello' command to your environment. It prints a friendly
     # # "Hello, world!" when run.
     # pkgs.hello
-    sl
-    lolcat
+    git
+    sops
     tmux
     zsh
-    git
     # # It is sometimes useful to fine-tune packages, for example, by applying
     # # overrides. You can do that directly here, just don't forget the
     # # parentheses. Maybe you want to install Nerd Fonts with a limited number of
