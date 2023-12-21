@@ -43,7 +43,7 @@
     # # "Hello, world!" when run.
     # pkgs.hello
     git
-    sops
+    #sops
     tmux
     zsh
     # # It is sometimes useful to fine-tune packages, for example, by applying

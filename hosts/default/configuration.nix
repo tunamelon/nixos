@@ -27,6 +27,9 @@ in
   sops.secrets.example-key = {
     owner = userName;
   };
+  sops.secrets.tunaboi = {
+    owner = userName;
+  };
   sops.secrets."myservice/my_subdir/my_secret" = {
     owner = "sometestservice";
     #owner = userName;
@@ -195,6 +198,7 @@ in
     wget
     alacritty
     git
+    sops
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
