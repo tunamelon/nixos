@@ -22,7 +22,8 @@ in
   sops.defaultSopsFile = ./secrets/secrets.yaml;
   sops.defaultSopsFormat = "yaml";
   
-  sops.age.keyFile = "/home/${userName}/.config/sops/age/keys.txt";
+  # sops.age.keyFile = "/home/${userName}/.config/sops/age/keys.txt";
+  sops.age.sshKeyPaths = [ "/etc/nixos/.ssh/id_ed25519_nixos" ];
   
   sops.secrets.example-key = {
     owner = userName;

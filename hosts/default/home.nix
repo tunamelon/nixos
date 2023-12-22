@@ -90,6 +90,7 @@
       nixconfig="sudo nano ~/nixos/hosts/default/configuration.nix";
       nixhome="sudo nano ~/nixos/hosts/default/home.nix";
       nixswitch="sudo nixos-rebuild switch --flake ~/nixos/#default && exec zsh";
+      nixflake="sudo nano ~/nixos/flake.nix";
       nixconfig-switch="nixconfig && nixswitch";
       nixhome-switch="nixhome && nixswitch";
       tmuxssh="tmux new-session -A -s ssh";

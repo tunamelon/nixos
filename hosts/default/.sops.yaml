@@ -1,5 +1,6 @@
 keys:
-  - &primary age1cg2g86cm3h6srg60h669jc6ahqmvmptmxm6zunmvndl2wh79tgsqup5yh5
+#  - &primary age1cg2g86cm3h6srg60h669jc6ahqmvmptmxm6zunmvndl2wh79tgsqup5yh5
+  - &primary AAAAC3NzaC1lZDI1NTE5AAAAIOwUHSrOYZsyoZtXXsTgExuqXqtinxRIDJjU6AE45LRc
 creation_rules:
   - path_regex: secrets/secrets.yaml$
     key_groups:
